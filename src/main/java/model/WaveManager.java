@@ -72,7 +72,6 @@ public class WaveManager {
         PR += progressRisk(progressRateTotalWave());
         waveStart = System.nanoTime();
         WaveManager.wave = wave + 1;
-        SpawnThread.getSpawnThread().setWave(wave);
         Timer waveTimer = new Timer((100), null);
         waveTimer.addActionListener(e -> {
             boolean waveFinished = false;
@@ -91,8 +90,8 @@ public class WaveManager {
                     }
                     waveEntities.clear();
                 }
-                float length = showMessage(4 - wave);
-                if (wave < 4) initiateWave(wave + 1);
+                float length = showMessage(0 - wave);
+                if (wave < 0) initiateWave(wave + 1);
                 else {
                     WaveManager.wave++;
                     finishGame(length);

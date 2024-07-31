@@ -40,7 +40,9 @@ public abstract class Entity {
                 if (entity.getHealth() <= 0) {
                     entity.eliminate();
                     WaveManager.waveEntities.remove(entity);
-                    WaveManager.killedEnemies++;
+                    if (!(entity instanceof CollectibleModel)) {
+                        WaveManager.killedEnemies++;
+                    }
                     if (entity instanceof CollectibleModel) playXPSoundEffect();
                     else playDownSoundEffect();
                 } else playHitSoundEffect();

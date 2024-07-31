@@ -37,15 +37,19 @@ import static view.containers.MotionPanelView.allMotionPanelViewsList;
 import static view.containers.MotionPanelView.setMainMotionPanelView;
 
 public abstract class UserInterfaceController {
-    private UserInterfaceController(){}
+    private UserInterfaceController() {
+    }
+
     public static void createEpsilon(String modelId, Point anchor, String motionPanelId) {
         EpsilonView view = new EpsilonView(anchor, findMotionPanelView(motionPanelId));
         view.setViewId(modelId);
     }
+
     public static void createPortal(String modelId, Point anchor, String motionPanelId) {
         PortalView view = new PortalView(anchor, findMotionPanelView(motionPanelId));
         view.setViewId(modelId);
     }
+
     public static void createTrigorath(String modelId, Point anchor, String motionPanelId) {
         TrigorathView view = new TrigorathView(anchor, findMotionPanelView(motionPanelId));
         view.setViewId(modelId);
@@ -68,11 +72,15 @@ public abstract class UserInterfaceController {
 
     public static void createMotionPanel(String modelId, Point2D dimension, Point2D location) {
         MotionPanelView view = new MotionPanelView(pointToDimension(dimension), roundPoint(location));
-        SpawnThread.getSpawnThread().start();
+        SpawnThread.spawnThread=new SpawnThread();
+        SpawnThread.spawnThread.start();
         view.setVisible(true);
         view.setViewId(modelId);
     }
-    public static String getInfo(){return GameLoop.getInfo();}
+
+    public static String getInfo() {
+        return GameLoop.getInfo();
+    }
 
     public static void eliminateView(String modelId, String motionPanelId) {
         GeoShapeView shapeView = findView(modelId);
@@ -90,9 +98,14 @@ public abstract class UserInterfaceController {
         return GameLoop.getINSTANCE().isOn();
     }
 
-    public static boolean isGameRunning() {return GameLoop.getINSTANCE().isRunning();}
+    public static boolean isGameRunning() {
+        return GameLoop.getINSTANCE().isRunning();
+    }
 
-    public static void toggleGameRunning() {GameLoop.getINSTANCE().toggleGameLoop();}
+    public static void toggleGameRunning() {
+        GameLoop.getINSTANCE().toggleGameLoop();
+    }
+
     public static void exitGame() {
         GameLoop.getINSTANCE().forceExitGame();
         GameLoop.getINSTANCE().toggleGameLoop();
@@ -103,7 +116,7 @@ public abstract class UserInterfaceController {
             motionPanelView.shapeViews.clear();
             motionPanelView.setVisible(false);
         }
-        SpawnThread.getSpawnThread().interrupt();
+        SpawnThread.spawnThread.interrupt();
         WaveManager.waveEntities.clear();
         setMainMotionPanelModel(null);
         setMainMotionPanelView(null);
@@ -157,14 +170,15 @@ public abstract class UserInterfaceController {
      * @return a thread-safe hashmap mapping to every skill category name (as key), a list of triples
      * (as value) of name,cost,acquired status of all skills in that category
      */
-    public static ConcurrentMap<String, List<Triple<String,Integer,Boolean>>> getSkillTypesData() {
-        ConcurrentMap<String, List<Triple<String,Integer,Boolean>>> out = new ConcurrentHashMap<>();
+    public static ConcurrentMap<String, List<Triple<String, Integer, Boolean>>> getSkillTypesData() {
+        ConcurrentMap<String, List<Triple<String, Integer, Boolean>>> out = new ConcurrentHashMap<>();
         for (Skill.SkillType type : Skill.SkillType.values()) {
-            List<Triple<String,Integer,Boolean>> skills = new CopyOnWriteArrayList<>();
+            List<Triple<String, Integer, Boolean>> skills = new CopyOnWriteArrayList<>();
             for (Skill skill : Skill.values()) {
-                if (skill.getType()==type)  skills.add(new MutableTriple<>(skill.getName(),skill.getCost(), skill.isAcquired()));
+                if (skill.getType() == type)
+                    skills.add(new MutableTriple<>(skill.getName(), skill.getCost(), skill.isAcquired()));
             }
-            out.put(type.name(),skills);
+            out.put(type.name(), skills);
         }
         return out;
     }
@@ -195,11 +209,13 @@ public abstract class UserInterfaceController {
         skill.setAcquired(true);
         return true;
     }
+
     public static boolean canActiveAbility(String abilityName) {
         Ability ability = findAbility(abilityName);
         if (ability == null) return false;
         return Profile.getCurrent().getCurrentGameXP() >= ability.getCost();
     }
+
     public static boolean activateAbility(String abilityName) {
         Ability ability = findAbility(abilityName);
         if (ability == null) return false;
@@ -212,7 +228,7 @@ public abstract class UserInterfaceController {
     public static Skill findSkill(String name) {
         for (Skill.SkillType type : Skill.SkillType.values()) {
             for (Skill skill : Skill.values()) {
-                if (skill.getType()==type && skill.getName().equals(name)) return skill;
+                if (skill.getType() == type && skill.getName().equals(name)) return skill;
             }
         }
         return null;
@@ -312,7 +328,8 @@ public abstract class UserInterfaceController {
     }
 
     public static float showMessage(int i) {
-        if (i >= 0 && i < Message.MessageType.values().length) return new Message(Message.MessageType.values()[i]).getExactLength();
+        if (i >= 0 && i < Message.MessageType.values().length)
+            return new Message(Message.MessageType.values()[i]).getExactLength();
         if (i == -1) return new Message(Message.MessageType.GAME_OVER).getExactLength();
         return 0;
     }

@@ -19,17 +19,7 @@ import static model.characters.GeoShapeModel.allShapeModelsList;
 import static model.collision.Collidable.collidables;
 
 public class SpawnThread extends Thread {
-    private int wave;
-    private static SpawnThread spawnThread = new SpawnThread();
-
-
-    public void setWave(int wave) {
-        this.wave = wave;
-    }
-
-    public static SpawnThread getSpawnThread() {
-        return spawnThread;
-    }
+    public static SpawnThread spawnThread=new SpawnThread();
 
     public void setRunning(boolean running) {
         this.running = running;
@@ -37,13 +27,12 @@ public class SpawnThread extends Thread {
 
     private boolean running = true;
 
-    int i = 0;
 
     @Override
     public void run() {
-       k: while (true) {
+        while (true) {
             while (running) {
-                if (WaveManager.wave > 5) {
+                if (WaveManager.wave > 1) {
                     for (GeoShapeModel shapeModel : waveEntities) {
                         allShapeModelsList.remove(shapeModel);
                         collidables.remove(shapeModel);
@@ -51,10 +40,12 @@ public class SpawnThread extends Thread {
                         eliminateView(shapeModel.getModelId(), shapeModel.getMotionPanelId());
                     }
                     waveEntities.clear();
-                    break k;
+                    break;
+
                 }
+                System.out.println("OK");
                 try {
-                    sleep((int) (3500 / (Math.pow(wave + 1, 0.2))));
+                    sleep((int) (2700 / (Math.pow(WaveManager.wave +1, 0.2))));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -62,7 +53,7 @@ public class SpawnThread extends Thread {
                         multiplyPoint(new Direction(random.nextFloat(0, 360)).getDirectionVector(),
                                 random.nextFloat(MIN_ENEMY_SPAWN_RADIUS.getValue(), MAX_ENEMY_SPAWN_RADIUS.getValue()))));
                 GeoShapeModel model;
-                if (wave == 0) {
+                if (WaveManager.wave == 1) {
                     model = new SquarantineModel(location, getMainMotionPanelId());
                 } else {
                     model = switch (random.nextInt(0, 2)) {
@@ -74,16 +65,14 @@ public class SpawnThread extends Thread {
                 if (model != null) {
                     WaveManager.waveEntities.add(model);
                     model.getMovement().lockOnTarget(EpsilonModel.getINSTANCE().getModelId());
-                    System.out.println(++i);
                 }
 
             }
             try {
-                sleep( 400);
+                sleep(500);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
     }
-
 }

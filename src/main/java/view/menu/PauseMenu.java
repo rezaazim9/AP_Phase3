@@ -1,6 +1,5 @@
 package view.menu;
 
-import controller.SpawnThread;
 import controller.constants.DefaultMethods;
 import model.Profile;
 import model.WaveManager;

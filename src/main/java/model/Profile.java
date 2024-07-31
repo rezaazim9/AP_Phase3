@@ -208,10 +208,8 @@ public class Profile {
     public void setCurrentGameXP(int currentGameXP) {
         this.currentGameXP = currentGameXP;
     }
-
     public void setPaused(boolean paused) {
-        SpawnThread.getSpawnThread().setRunning(!paused) ;
-
+        SpawnThread.spawnThread.setRunning(!paused) ;
         isPaused = paused;
     }
 
