@@ -21,7 +21,6 @@ import static controller.constants.DefaultMethods.ABILITY_ACTIVATE_MESSAGE;
 import static controller.constants.DimensionConstants.PAUSE_MENU_DIMENSION;
 import static controller.constants.UIConstants.*;
 import static controller.constants.UIMessageConstants.*;
-
 import static view.containers.GlassFrame.getGlassFrame;
 
 public class PauseMenu extends PanelB implements TopElement {
@@ -53,6 +52,7 @@ public class PauseMenu extends PanelB implements TopElement {
             if (action == JOptionPane.YES_OPTION) {
                 exitGame();
                 WaveManager.wave=6;
+                Profile.getCurrent().setPaused(false);
                 PauseMenu.getINSTANCE().togglePanel(true);
                 MainMenu.flushINSTANCE();
                 MainMenu.getINSTANCE().togglePanel();
@@ -86,7 +86,8 @@ public class PauseMenu extends PanelB implements TopElement {
                         if (confirmAction == JOptionPane.CLOSED_OPTION) {
                             PauseMenu.getINSTANCE().togglePanel();
                             EpsilonModel.getINSTANCE().activateMovement();
-                            Profile.getCurrent().setPaused(false);                        }
+                            Profile.getCurrent().setPaused(false);
+                        }
                     } else {
                         JOptionPane.showOptionDialog(getINSTANCE(), DefaultMethods.UNSUCCESSFUL_ACTIVATE_MESSAGE(abilityData.getKey()), UNSUCCESSFUL_PURCHASE_TITLE.getValue(),
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
@@ -100,7 +101,8 @@ public class PauseMenu extends PanelB implements TopElement {
     public static PauseMenu getINSTANCE() {
         if (INSTANCE==null || !INSTANCE.isVisible()) {
             INSTANCE=new PauseMenu();
-            Profile.getCurrent().setPaused(true);        }
+            Profile.getCurrent().setPaused(true);
+        }
         return INSTANCE;
     }
 

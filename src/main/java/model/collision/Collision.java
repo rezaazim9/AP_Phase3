@@ -155,8 +155,9 @@ public final class Collision implements Runnable {
 
 
     public void portalHandler(PortalModel portalModel) {
-        EpsilonModel.getINSTANCE().deactivateMovement();
         toggleGameRunning();
+        GameLoop.getINSTANCE().setRunning(false);
+        EpsilonModel.getINSTANCE().deactivateMovement();
         Profile.getCurrent().setPaused(true);
         GameLoop.getINSTANCE().getWaveManager().stopEnemies();
         int action = JOptionPane.showConfirmDialog(new JOptionPane(), DefaultMethods.PORTAL_MESSAGE(), PURCHASE_TITLE.getValue(), JOptionPane.YES_NO_OPTION);
@@ -175,11 +176,10 @@ public final class Collision implements Runnable {
             }
         } else {
             toggleGameRunning();
-            EpsilonModel.getINSTANCE().activateMovement();
             Profile.getCurrent().setPaused(false);
-            GameLoop.getINSTANCE().getWaveManager().releaseEnemies();
+            EpsilonModel.getINSTANCE().activateMovement();
             Profile.getCurrent().setCurrentGameXP(Profile.getCurrent().getCurrentGameXP() + GameLoop.getPR() / 10);
-
+            GameLoop.getINSTANCE().setRunning(true);
         }
         portalModel.eliminate();
     }

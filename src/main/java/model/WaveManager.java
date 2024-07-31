@@ -29,6 +29,7 @@ public class WaveManager {
     private long waveFinish;
     public static int initialWave = 0;
     public static int killedEnemies = 0;
+    public static SpawnThread spawn;
 
 
     public void start() {
@@ -64,7 +65,6 @@ public class WaveManager {
 
     private void initiateWave(int wave) {
         if (wave != 0) {
-
             initialPortal();
         }
         GameLoop.setWaveStart(System.nanoTime());
@@ -72,6 +72,8 @@ public class WaveManager {
         PR += progressRisk(progressRateTotalWave());
         waveStart = System.nanoTime();
         WaveManager.wave = wave + 1;
+        spawn = new SpawnThread();
+        spawn.start();
         Timer waveTimer = new Timer((100), null);
         waveTimer.addActionListener(e -> {
             boolean waveFinished = false;
@@ -90,13 +92,12 @@ public class WaveManager {
                     }
                     waveEntities.clear();
                 }
-                float length = showMessage(0 - wave);
-                if (wave < 0) initiateWave(wave + 1);
+                float length = showMessage(4 - wave);
+                if (wave < 4) initiateWave(wave + 1);
                 else {
                     WaveManager.wave++;
                     finishGame(length);
                 }
-
             }
         });
         waveTimer.start();
@@ -107,6 +108,8 @@ public class WaveManager {
             GameLoop.setPR(0);
             Profile.getCurrent().saveXP();
             exitGame();
+            Profile.getCurrent().setPaused(false);
+            spawn.interrupt();
             PauseMenu.getINSTANCE().togglePanel(true);
             MainMenu.flushINSTANCE();
             MainMenu.getINSTANCE().togglePanel();

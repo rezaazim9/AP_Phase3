@@ -3,6 +3,7 @@ package model.characters;
 import controller.UserInputHandler;
 import controller.constants.AbilityConstants;
 import model.Profile;
+import model.WaveManager;
 import model.collision.Collidable;
 import model.entities.AttackTypes;
 import model.movement.Direction;

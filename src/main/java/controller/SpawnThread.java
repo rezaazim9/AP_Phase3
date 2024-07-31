@@ -19,20 +19,19 @@ import static model.characters.GeoShapeModel.allShapeModelsList;
 import static model.collision.Collidable.collidables;
 
 public class SpawnThread extends Thread {
-    public static SpawnThread spawnThread=new SpawnThread();
 
     public void setRunning(boolean running) {
         this.running = running;
     }
 
     private boolean running = true;
-
+int i=0;
 
     @Override
     public void run() {
         while (true) {
             while (running) {
-                if (WaveManager.wave > 1) {
+                if (WaveManager.wave > 5) {
                     for (GeoShapeModel shapeModel : waveEntities) {
                         allShapeModelsList.remove(shapeModel);
                         collidables.remove(shapeModel);
@@ -48,6 +47,7 @@ public class SpawnThread extends Thread {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
+                System.out.println(++i);
                 Point location = roundPoint(addUpPoints(EpsilonModel.getINSTANCE().getAnchor(),
                         multiplyPoint(new Direction(random.nextFloat(0, 360)).getDirectionVector(),
                                 random.nextFloat(MIN_ENEMY_SPAWN_RADIUS.getValue(), MAX_ENEMY_SPAWN_RADIUS.getValue()))));
