@@ -1,7 +1,6 @@
 package model.collision;
 
 import controller.GameLoop;
-import controller.SpawnThread;
 import controller.constants.DefaultMethods;
 import model.MotionPanelModel;
 import model.Profile;
@@ -98,8 +97,9 @@ public final class Collision implements Runnable {
             if (entity1.isVulnerable() && (state.stateOf2.collidable instanceof BulletModel || state.stateOf1.collidable instanceof CollectibleModel || meleePair.getRight())) {
                 if (entity2 instanceof EpsilonModel)
                     EpsilonModel.getINSTANCE().healEpsilon();
-                if (epsilonMelee || !(entity1 instanceof EpsilonModel))
-                entity2.damage(entity1, AttackTypes.MELEE);
+                if (epsilonMelee || !(entity1 instanceof EpsilonModel)) {
+                    entity2.damage(entity1, AttackTypes.MELEE);
+                }
             }
             if (entity2.isVulnerable() && (state.stateOf1.collidable instanceof BulletModel || state.stateOf2.collidable instanceof CollectibleModel || meleePair.getLeft())) {
                 if (entity1 instanceof EpsilonModel)
