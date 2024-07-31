@@ -72,8 +72,6 @@ public abstract class UserInterfaceController {
 
     public static void createMotionPanel(String modelId, Point2D dimension, Point2D location) {
         MotionPanelView view = new MotionPanelView(pointToDimension(dimension), roundPoint(location));
-        SpawnThread.spawnThread=new SpawnThread();
-        SpawnThread.spawnThread.start();
         view.setVisible(true);
         view.setViewId(modelId);
     }
@@ -116,7 +114,7 @@ public abstract class UserInterfaceController {
             motionPanelView.shapeViews.clear();
             motionPanelView.setVisible(false);
         }
-        SpawnThread.spawnThread.interrupt();
+        Profile.getCurrent().setPaused(true);
         WaveManager.waveEntities.clear();
         setMainMotionPanelModel(null);
         setMainMotionPanelView(null);

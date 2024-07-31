@@ -43,7 +43,6 @@ public class SpawnThread extends Thread {
                     break;
 
                 }
-                System.out.println("OK");
                 try {
                     sleep((int) (2700 / (Math.pow(WaveManager.wave +1, 0.2))));
                 } catch (InterruptedException e) {

@@ -1,6 +1,5 @@
 package org.example;
 
-import controller.SpawnThread;
 import controller.UserInterfaceController;
 import view.menu.LoginPage;
 

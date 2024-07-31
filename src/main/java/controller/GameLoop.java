@@ -156,7 +156,7 @@ public final class GameLoop implements Runnable {
                     abilities.append(" <br/>").append(ability.getName());
                 }
             }
-            info = "<html>PR:" + PR   +" <br/>FPS:" + frames + " <br/>UPS:" + ticks + " <br/>XP:" + Profile.getCurrent().getCurrentGameXP() + " <br/>HP:" + EpsilonModel.getINSTANCE().getHealth() + " <br/>Wave:" + WaveManager.wave + " <br/>Time:" + time + " <br/>Abilities:" + abilities + "</html>";
+            info = "<html>PR:" + PR + " <br/>FPS:" + frames + " <br/>UPS:" + ticks + " <br/>XP:" + Profile.getCurrent().getCurrentGameXP() + " <br/>HP:" + EpsilonModel.getINSTANCE().getHealth() + " <br/>Wave:" + WaveManager.wave + " <br/>Time:" + time + " <br/>Abilities:" + abilities + "</html>";
             frames.set(0);
             ticks.set(0);
             timeSave = currentTime;
@@ -169,6 +169,8 @@ public final class GameLoop implements Runnable {
         EpsilonModel.getINSTANCE();
         UserInputHandler.getINSTANCE().setupInputHandler(getMainMotionPanelView());
         getMainMotionPanelView().requestFocus();
+        SpawnThread.spawnThread = new SpawnThread();
+        SpawnThread.spawnThread.start();
         (this.waveManager = new WaveManager()).start();
     }
 
