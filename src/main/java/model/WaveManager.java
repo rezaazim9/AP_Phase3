@@ -2,7 +2,6 @@ package model;
 
 import controller.GameLoop;
 
-import controller.SpawnThread;
 import model.characters.*;
 import model.movement.Movable;
 import view.menu.MainMenu;
@@ -19,21 +18,21 @@ import static controller.UserInterfaceController.*;
 import static controller.constants.MovementConstants.*;
 import static model.characters.GeoShapeModel.allShapeModelsList;
 import static model.collision.Collidable.collidables;
+import static view.menu.MainMenu.spawn;
 
 public class WaveManager {
     public static List<GeoShapeModel> waveEntities = new CopyOnWriteArrayList<>();
     public static final Random random = new Random();
-    public static int wave;
+    public static int wave=Profile.getCurrent().getWave();
     public static int PR = 0;
     private long waveStart = System.nanoTime();
     private long waveFinish;
-    public static int initialWave = 0;
     public static int killedEnemies = 0;
-    public static SpawnThread spawn;
+
 
 
     public void start() {
-        initiateWave(initialWave);
+        initiateWave(Profile.getCurrent().getWave());
     }
 
 
@@ -64,16 +63,13 @@ public class WaveManager {
 
 
     private void initiateWave(int wave) {
-        if (wave != 0) {
+        if (wave != Profile.getCurrent().getWave()) {
             initialPortal();
         }
         GameLoop.setWaveStart(System.nanoTime());
         waveFinish = System.nanoTime();
         PR += progressRisk(progressRateTotalWave());
         waveStart = System.nanoTime();
-        WaveManager.wave = wave + 1;
-        spawn = new SpawnThread();
-        spawn.start();
         Timer waveTimer = new Timer((100), null);
         waveTimer.addActionListener(e -> {
             boolean waveFinished = false;
@@ -82,6 +78,7 @@ public class WaveManager {
                 killedEnemies = 0;
             }
             if (waveFinished) {
+                WaveManager.wave++;
                 if (waveEntities != null) {
                     waveTimer.stop();
                     for (GeoShapeModel shapeModel : waveEntities) {
@@ -92,22 +89,23 @@ public class WaveManager {
                     }
                     waveEntities.clear();
                 }
-                float length = showMessage(4 - wave);
-                if (wave < 4) initiateWave(wave + 1);
+                float length = showMessage(4 - WaveManager.wave);
+                if (WaveManager.wave < 4) initiateWave(WaveManager.wave + 1);
                 else {
-                    WaveManager.wave++;
+                    Profile.getCurrent().setWave(0);
                     finishGame(length);
                 }
             }
         });
         waveTimer.start();
     }
-    public void finishGame(float lastSceneTime) {
+    public static void finishGame(float lastSceneTime) {
         Timer timer = new Timer((int) TimeUnit.NANOSECONDS.toMillis((long) lastSceneTime), e -> {
             GameLoop.setPR(0);
             Profile.getCurrent().saveXP();
             exitGame();
-            Profile.getCurrent().setPaused(false);
+            setGameFinished(true);
+            Profile.getCurrent().setPaused(true);
             spawn.interrupt();
             PauseMenu.getINSTANCE().togglePanel(true);
             MainMenu.flushINSTANCE();

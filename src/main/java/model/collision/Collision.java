@@ -24,14 +24,14 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static controller.AudioHandler.random;
-import static controller.UserInterfaceController.exitGame;
-import static controller.UserInterfaceController.toggleGameRunning;
+import static controller.UserInterfaceController.*;
 import static controller.constants.ImpactConstants.IMPACT_RADIUS;
 import static controller.constants.ImpactConstants.IMPACT_SCALE;
 import static controller.constants.UIMessageConstants.PURCHASE_TITLE;
 import static model.MotionPanelModel.getMainMotionPanelModel;
 import static model.Utils.*;
 import static model.characters.GeoShapeModel.allShapeModelsList;
+import static view.menu.MainMenu.spawn;
 
 public final class Collision implements Runnable {
     private static Collision INSTANCE = null;
@@ -155,6 +155,7 @@ public final class Collision implements Runnable {
 
 
     public void portalHandler(PortalModel portalModel) {
+        Profile.getCurrent().setWave(WaveManager.wave);
         toggleGameRunning();
         GameLoop.getINSTANCE().setRunning(false);
         EpsilonModel.getINSTANCE().deactivateMovement();
@@ -163,10 +164,12 @@ public final class Collision implements Runnable {
         int action = JOptionPane.showConfirmDialog(new JOptionPane(), DefaultMethods.PORTAL_MESSAGE(), PURCHASE_TITLE.getValue(), JOptionPane.YES_NO_OPTION);
         if (JOptionPane.YES_OPTION == action) {
             if (Profile.getCurrent().getCurrentGameXP() >= GameLoop.getPR()) {
-                Profile.getCurrent().setCurrentGameXP(Profile.getCurrent().getCurrentGameXP() - GameLoop.getPR());
-                WaveManager.initialWave = WaveManager.wave - 1;
-                EpsilonModel.getINSTANCE().setHealth(EpsilonModel.getINSTANCE().getHealth() + 10);
+                GameLoop.setPR(0);
+                Profile.getCurrent().saveXP();
                 exitGame();
+                setGameFinished(true);
+                Profile.getCurrent().setPaused(true);
+                spawn.interrupt();
                 PauseMenu.getINSTANCE().togglePanel(true);
                 MainMenu.flushINSTANCE();
                 MainMenu.getINSTANCE().togglePanel();
@@ -188,8 +191,8 @@ public final class Collision implements Runnable {
         CopyOnWriteArrayList<MovementState.CollisionState> collisionStates = new CopyOnWriteArrayList<>();
         for (int i = 0; i < Collidable.collidables.size(); i++) {
             for (int j = i + 1; j < Collidable.collidables.size(); j++) {
-                MovementState.CollisionState state=null;
-                if (Collidable.collidables.size()>i && Collidable.collidables.size()>j) {
+                MovementState.CollisionState state = null;
+                if (Collidable.collidables.size() > i && Collidable.collidables.size() > j) {
                     state = Collidable.collidables.get(i).checkCollision(Collidable.collidables.get(j));
                 }
                 if (state != null) collisionStates.add(state);

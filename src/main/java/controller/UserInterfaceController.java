@@ -88,11 +88,19 @@ public abstract class UserInterfaceController {
     public static boolean isGameOn() {
         return GameLoop.getINSTANCE().isOn();
     }
+    public static void setGameFinished(boolean b){
+        gameFinished=b;
+    }
+    public static boolean isGameFinished(){
+        return gameFinished;
+    }
 
+   private static boolean gameFinished =false;
     public static boolean isGameRunning() {return GameLoop.getINSTANCE().isRunning();}
 
     public static void toggleGameRunning() {GameLoop.getINSTANCE().toggleGameLoop();}
     public static void exitGame() {
+
         GameLoop.getINSTANCE().forceExitGame();
         GameLoop.getINSTANCE().toggleGameLoop();
         GameLoop.getINSTANCE().setRunning(false);
@@ -101,7 +109,6 @@ public abstract class UserInterfaceController {
             motionPanelView.shapeViews.clear();
             motionPanelView.setVisible(false);
         }
-        WaveManager.spawn.interrupt();
         WaveManager.waveEntities.clear();
         setMainMotionPanelModel(null);
         setMainMotionPanelView(null);

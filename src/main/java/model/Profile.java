@@ -2,10 +2,9 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import controller.SpawnThread;
 import model.entities.Skill;
 
-import static controller.constants.ViewConstants.EPSILON_FACTOR;
+import static view.menu.MainMenu.spawn;
 
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -22,6 +21,7 @@ public class Profile {
     public static final int PAUSE_KEYCODE = KeyEvent.VK_ESCAPE;
     private String profileId;
     private int ups = 800;
+    private int wave=0;
     private int fps = 80;
     private float soundScale = 6;
     private float sizeScale = 0.75f;
@@ -41,7 +41,7 @@ public class Profile {
     private boolean isInCooldown = false;
 
     @JsonCreator
-    public Profile(@JsonProperty("profileId") String profileId, @JsonProperty("ups") int ups,
+    public Profile(@JsonProperty("profileId") String profileId,@JsonProperty("wave")int wave, @JsonProperty("ups") int ups,
                    @JsonProperty("fps") int fps, @JsonProperty("soundScale") float soundScale,
                    @JsonProperty("sizeScale") float sizeScale, @JsonProperty("gameSpeed") float gameSpeed, 
                    @JsonProperty("epsilonShootingRapidity") int epsilonShootingRapidity, @JsonProperty("activeSkillSaveName") String activeSkillSaveName,
@@ -66,6 +66,7 @@ public class Profile {
         this.acquiredSkillsNames = acquiredSkillsNames;
         this.randomAquiredSkillNames = randomAquiredSkillNames;
         this.totalXP = totalXP;
+        this.wave=wave;
         this.currentGameXP = currentGameXP;
         this.isPaused = isPaused;
         this.isInCooldown = isInCooldown;
@@ -124,6 +125,14 @@ public class Profile {
 
     public int getEpsilonCollisionDamage() {
         return epsilonCollisionDamage;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    public void setWave(int wave) {
+        this.wave = wave;
     }
 
     public void setEpsilonCollisionDamage(int epsilonCollisionDamage) {
@@ -209,8 +218,8 @@ public class Profile {
         this.currentGameXP = currentGameXP;
     }
 
-    public void setPaused(boolean paused) {
-         WaveManager.spawn.setRunning(!paused) ;
+    public void setPaused(boolean paused ) {
+        spawn.setRunning(!paused) ;
         isPaused = paused;
     }
 

@@ -1,5 +1,6 @@
 package model.characters;
 
+import controller.GameLoop;
 import controller.UserInputHandler;
 import controller.constants.AbilityConstants;
 import model.Profile;
@@ -10,6 +11,7 @@ import model.movement.Direction;
 import model.projectiles.LongRanged;
 import view.containers.MotionPanelView;
 import view.menu.MainMenu;
+import view.menu.PauseMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,10 +64,14 @@ public final class EpsilonModel extends GeoShapeModel implements LongRanged {
     public void eliminate() {
         super.eliminate();
         Timer timer=new Timer((int) TimeUnit.NANOSECONDS.toMillis((long) showMessage(-1)), e -> {
+            GameLoop.setPR(0);
+            Profile.getCurrent().setCurrentGameXP(0);
             exitGame();
+            Profile.getCurrent().setPaused(true);
+            PauseMenu.getINSTANCE().togglePanel(true);
             MainMenu.flushINSTANCE();
             MainMenu.getINSTANCE().togglePanel();
-        });
+            });
         timer.setRepeats(false);
         timer.start();
     }

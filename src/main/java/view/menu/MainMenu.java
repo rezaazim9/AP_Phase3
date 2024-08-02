@@ -1,5 +1,6 @@
 package view.menu;
 
+import controller.SpawnThread;
 import model.characters.EpsilonModel;
 import view.containers.ButtonB;
 import view.containers.PanelB;
@@ -15,14 +16,20 @@ import static controller.constants.UIMessageConstants.*;
 public final class MainMenu extends PanelB {
 
     private static MainMenu INSTANCE;
+    public static SpawnThread spawn= new SpawnThread();
+
 
     private MainMenu() {
         super(MAIN_MENU_DIMENSION.getValue());
+
         playMenuTheme();
         ButtonB start = new ButtonB(ButtonB.ButtonType.MENU_BUTTON, "START", (int) MENU_BUTTON_WIDTH.getValue(), true);
         start.addActionListener(e -> {
                 MainMenu.getINSTANCE().togglePanel();
                 toggleGameRunning();
+                    spawn= new SpawnThread();
+                    setGameFinished(false);
+                    spawn.start();
         });
         ButtonB settings = new ButtonB(ButtonB.ButtonType.MENU_BUTTON, "SETTINGS", (int) MENU_BUTTON_WIDTH.getValue(), true);
         settings.addActionListener(e -> {
