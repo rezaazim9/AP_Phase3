@@ -25,7 +25,7 @@ public class SpawnThread extends Thread {
     }
 
     private boolean running = true;
-int i=0;
+
 
     @Override
     public void run() {
@@ -40,14 +40,13 @@ int i=0;
                     }
                     waveEntities.clear();
                     break;
-
                 }
                 try {
                     sleep((int) (2700 / (Math.pow(WaveManager.wave +1, 0.2))));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                System.out.println(++i);
+
                 Point location = roundPoint(addUpPoints(EpsilonModel.getINSTANCE().getAnchor(),
                         multiplyPoint(new Direction(random.nextFloat(0, 360)).getDirectionVector(),
                                 random.nextFloat(MIN_ENEMY_SPAWN_RADIUS.getValue(), MAX_ENEMY_SPAWN_RADIUS.getValue()))));

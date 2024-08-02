@@ -1,5 +1,6 @@
 package view.menu;
 
+import controller.GameLoop;
 import controller.constants.DefaultMethods;
 import model.Profile;
 import model.WaveManager;
@@ -30,6 +31,7 @@ public class PauseMenu extends PanelB implements TopElement {
 
     private PauseMenu() {
         super(PAUSE_MENU_DIMENSION.getValue());
+        Profile.getCurrent().setPaused(true);
         ButtonB xp = new ButtonB(ButtonB.ButtonType.SMALL_MENU_BUTTON, Profile.getCurrent().getCurrentGameXP() + " XP",
                 (int) BACK_BUTTON_WIDTH.getValue(), BACK_BUTTON_FONT_SCALE.getValue(), false, true);
         xp.toggleBold();
@@ -50,9 +52,10 @@ public class PauseMenu extends PanelB implements TopElement {
             int action = JOptionPane.showConfirmDialog(getINSTANCE(), EXIT_GAME_MESSAGE.getValue(), EXIT_GAME_TITLE.getValue()
                     , JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (action == JOptionPane.YES_OPTION) {
+                GameLoop.setPR(0);
                 exitGame();
-                WaveManager.wave=6;
-                Profile.getCurrent().setPaused(false);
+                Profile.getCurrent().setCurrentGameXP(0);
+                Profile.getCurrent().setPaused(true);
                 PauseMenu.getINSTANCE().togglePanel(true);
                 MainMenu.flushINSTANCE();
                 MainMenu.getINSTANCE().togglePanel();
@@ -101,7 +104,6 @@ public class PauseMenu extends PanelB implements TopElement {
     public static PauseMenu getINSTANCE() {
         if (INSTANCE==null || !INSTANCE.isVisible()) {
             INSTANCE=new PauseMenu();
-            Profile.getCurrent().setPaused(true);
         }
         return INSTANCE;
     }

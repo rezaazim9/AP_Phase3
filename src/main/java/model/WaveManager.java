@@ -102,7 +102,6 @@ public class WaveManager {
         });
         waveTimer.start();
     }
-
     public void finishGame(float lastSceneTime) {
         Timer timer = new Timer((int) TimeUnit.NANOSECONDS.toMillis((long) lastSceneTime), e -> {
             GameLoop.setPR(0);

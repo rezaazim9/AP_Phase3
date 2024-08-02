@@ -41,11 +41,12 @@ public enum Ability {
     }
 
     public ActionListener getAction() {
+        Profile.getCurrent().setPaused(false);
         return switch (this) {
 
             case HEPHAESTUS -> e -> {
                 if (!Profile.getCurrent().isPaused()) {
-                emitImpactWave(EpsilonModel.getINSTANCE().getAnchor(), HEPHAESTUS_ABILITY_WAVE_POWER.getValue());
+                    emitImpactWave(EpsilonModel.getINSTANCE().getAnchor(), HEPHAESTUS_ABILITY_WAVE_POWER.getValue());
                 }
             };
             case ATHENA -> e -> {
