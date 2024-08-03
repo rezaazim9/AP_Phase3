@@ -14,6 +14,7 @@ import static controller.constants.WaveConstants.MIN_ENEMY_SPAWN_RADIUS;
 import static model.Utils.*;
 
 public class SpawnThread extends Thread {
+    int i = 0;
 
     public void setRunning(boolean running) {
         this.running = running;
@@ -24,17 +25,14 @@ public class SpawnThread extends Thread {
 
     @Override
     public void run() {
-        k:while (true) {
-            while (running) {
-                if (isGameFinished()) {
-                    this.interrupt();
-                    break k ;
-                }
+        while (true) {
+            if (running) {
                 try {
-                    sleep((int) (2700 / (Math.pow(WaveManager.wave +1, 0.2))));
+                    sleep((int) (2700 / (Math.pow(WaveManager.wave + 1, 0.2))));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
+                System.out.println(i++);
                 Point location = roundPoint(addUpPoints(EpsilonModel.getINSTANCE().getAnchor(),
                         multiplyPoint(new Direction(random.nextFloat(0, 360)).getDirectionVector(),
                                 random.nextFloat(MIN_ENEMY_SPAWN_RADIUS.getValue(), MAX_ENEMY_SPAWN_RADIUS.getValue()))));

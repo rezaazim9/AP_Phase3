@@ -88,12 +88,7 @@ public abstract class UserInterfaceController {
     public static boolean isGameOn() {
         return GameLoop.getINSTANCE().isOn();
     }
-    public static void setGameFinished(boolean b){
-        gameFinished=b;
-    }
-    public static boolean isGameFinished(){
-        return gameFinished;
-    }
+
 
    private static boolean gameFinished =false;
     public static boolean isGameRunning() {return GameLoop.getINSTANCE().isRunning();}

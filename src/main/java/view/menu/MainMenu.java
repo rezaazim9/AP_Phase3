@@ -1,11 +1,13 @@
 package view.menu;
 
 import controller.SpawnThread;
+import model.Profile;
 import model.characters.EpsilonModel;
 import view.containers.ButtonB;
 import view.containers.PanelB;
 
 import javax.swing.*;
+import java.awt.color.ProfileDataException;
 import java.util.List;
 
 import static controller.UserInterfaceController.*;
@@ -28,7 +30,7 @@ public final class MainMenu extends PanelB {
                 MainMenu.getINSTANCE().togglePanel();
                 toggleGameRunning();
                     spawn= new SpawnThread();
-                    setGameFinished(false);
+            Profile.getCurrent().setPaused(false);
                     spawn.start();
         });
         ButtonB settings = new ButtonB(ButtonB.ButtonType.MENU_BUTTON, "SETTINGS", (int) MENU_BUTTON_WIDTH.getValue(), true);

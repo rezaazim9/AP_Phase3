@@ -93,6 +93,7 @@ public class WaveManager {
                 if (WaveManager.wave < 4) initiateWave(WaveManager.wave + 1);
                 else {
                     Profile.getCurrent().setWave(0);
+                    Profile.getCurrent().setPaused(true);
                     finishGame(length);
                 }
             }
@@ -104,8 +105,6 @@ public class WaveManager {
             GameLoop.setPR(0);
             Profile.getCurrent().saveXP();
             exitGame();
-            setGameFinished(true);
-            Profile.getCurrent().setPaused(true);
             spawn.interrupt();
             PauseMenu.getINSTANCE().togglePanel(true);
             MainMenu.flushINSTANCE();

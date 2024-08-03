@@ -167,7 +167,6 @@ public final class Collision implements Runnable {
                 GameLoop.setPR(0);
                 Profile.getCurrent().saveXP();
                 exitGame();
-                setGameFinished(true);
                 Profile.getCurrent().setPaused(true);
                 spawn.interrupt();
                 PauseMenu.getINSTANCE().togglePanel(true);
