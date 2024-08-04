@@ -1,6 +1,6 @@
 package view.menu;
 
-import controller.SpawnThread;
+import model.SpawnThread;
 import model.Profile;
 import view.containers.ButtonB;
 import view.containers.PanelB;

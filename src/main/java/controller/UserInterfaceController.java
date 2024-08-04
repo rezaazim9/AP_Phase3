@@ -1,9 +1,6 @@
 package controller;
 
-import model.JsonOperator;
-import model.MotionPanelModel;
-import model.Profile;
-import model.WaveManager;
+import model.*;
 import model.characters.EpsilonModel;
 import model.characters.GeoShapeModel;
 import model.collision.Collidable;
@@ -21,6 +18,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -149,8 +147,17 @@ public abstract class UserInterfaceController {
         for (Clip clip : clips.keySet()) {
             clip.stop();
             clips.remove(clip);
+        }TCP tcp;
+        try {
+            tcp = new TCP();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        JsonOperator.setProceedToSaveLoad(false);
+        try {
+            tcp.sendObject(new Packet(false,"exit"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

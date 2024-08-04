@@ -1,7 +1,6 @@
-package controller;
+package model;
 
 
-import model.WaveManager;
 import model.characters.*;
 import model.movement.Direction;
 
