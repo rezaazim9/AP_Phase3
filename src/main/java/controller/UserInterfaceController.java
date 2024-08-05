@@ -320,7 +320,11 @@ public abstract class UserInterfaceController {
 
     public static float showMessage(int i) {
         if (i >= 0 && i < Message.MessageType.values().length) return new Message(Message.MessageType.values()[i]).getExactLength();
-        if (i == -1) return new Message(Message.MessageType.GAME_OVER).getExactLength();
+        if (i == -1) {
+            Profile.getCurrent().setWave(0);
+            Profile.getCurrent().setPaused(true);
+            return new Message(Message.MessageType.GAME_OVER).getExactLength();
+        }
         return 0;
     }
 }

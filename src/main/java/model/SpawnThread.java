@@ -13,7 +13,6 @@ import static controller.constants.WaveConstants.MIN_ENEMY_SPAWN_RADIUS;
 import static model.Utils.*;
 
 public class SpawnThread extends Thread {
-    int i = 0;
 
     public void setRunning(boolean running) {
         this.running = running;
@@ -31,12 +30,10 @@ public class SpawnThread extends Thread {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                System.out.println(i++);
                 Point location = roundPoint(addUpPoints(EpsilonModel.getINSTANCE().getAnchor(),
                         multiplyPoint(new Direction(random.nextFloat(0, 360)).getDirectionVector(),
                                 random.nextFloat(MIN_ENEMY_SPAWN_RADIUS.getValue(), MAX_ENEMY_SPAWN_RADIUS.getValue()))));
                 GeoShapeModel model;
-
                 if (WaveManager.wave == 0) {
                     model = new SquarantineModel(location, getMainMotionPanelId());
                 } else {

@@ -56,7 +56,6 @@ public abstract class Entity {
     }
 
     public void eliminate() {
-
         if (this instanceof GeoShapeModel geoShapeModel) {
             bulkCreateCollectibles((GeoShapeModel) this);
             allShapeModelsList.remove(this);

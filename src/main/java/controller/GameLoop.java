@@ -14,6 +14,7 @@ import view.containers.MotionPanelView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,8 +48,9 @@ public final class GameLoop implements Runnable {
         return PR;
     }
 
-    public static void setPR(int PR) {
-        GameLoop.PR = PR;
+    public static void setPRZero() {
+        GameLoop.PR = 0;
+        WaveManager.PR = 0;
     }
 
 
@@ -116,11 +118,11 @@ public final class GameLoop implements Runnable {
     }
 
     public int progressRateInWave() {
-        return (int) (WaveManager.wave * (currentTime - waveStart) / 1000000000);
+        return (int) ((WaveManager.wave+1) * (currentTime - waveStart) / 1000000000);
     }
 
     public int progressRisk(int p) {
-        if (EpsilonModel.getINSTANCE().getHealth() == 0) return 0;
+        if (EpsilonModel.getINSTANCE().getHealth() <= 0) return 0;
         return (10 * Profile.getCurrent().getCurrentGameXP() * p / EpsilonModel.getINSTANCE().getHealth());
     }
 
@@ -147,7 +149,7 @@ public final class GameLoop implements Runnable {
             ticks.addAndGet(1);
             lastUpdateTime = currentTime;
         }
-        if (currentTime - timeSave >= TimeUnit.SECONDS.toNanos(1)) {
+        if (currentTime - timeSave >= TimeUnit.MILLISECONDS.toNanos(300)) {
             long time = (currentTime - startTime) / 1000000000;
             PR = WaveManager.PR + progressRisk(progressRateInWave());
             StringBuilder abilities = new StringBuilder();
@@ -162,6 +164,7 @@ public final class GameLoop implements Runnable {
             timeSave = currentTime;
         }
     }
+
 
     public void initializeGame() throws InterruptedException {
         getMainMotionPanelModel();

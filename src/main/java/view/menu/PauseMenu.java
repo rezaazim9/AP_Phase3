@@ -52,7 +52,7 @@ public class PauseMenu extends PanelB implements TopElement {
             int action = JOptionPane.showConfirmDialog(getINSTANCE(), EXIT_GAME_MESSAGE.getValue(), EXIT_GAME_TITLE.getValue()
                     , JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (action == JOptionPane.YES_OPTION) {
-                GameLoop.setPR(0);
+                GameLoop.setPRZero();
                 Profile.getCurrent().setCurrentGameXP(0);
                 exitGame();
                 Profile.getCurrent().setPaused(true);
@@ -90,6 +90,7 @@ public class PauseMenu extends PanelB implements TopElement {
                             PauseMenu.getINSTANCE().togglePanel();
                             EpsilonModel.getINSTANCE().activateMovement();
                             Profile.getCurrent().setPaused(false);
+
                         }
                     } else {
                         JOptionPane.showOptionDialog(getINSTANCE(), DefaultMethods.UNSUCCESSFUL_ACTIVATE_MESSAGE(abilityData.getKey()), UNSUCCESSFUL_PURCHASE_TITLE.getValue(),

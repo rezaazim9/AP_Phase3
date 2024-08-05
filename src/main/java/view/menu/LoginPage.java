@@ -38,6 +38,8 @@ public class LoginPage extends PanelB {
                     return;
                 } else {
                     if (idField.getText().matches(PROFILE_ID_REGEX.getValue()) && idField.getText().length() >= MINIMUM_PROFILE_ID_LENGTH.getValue()) {
+                        JOptionPane.showOptionDialog(getINSTANCE(), OFFLINE_MESSAGE.getValue(), OFFLINE_TITLE.getValue(),
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                         LoginPage.getINSTANCE().togglePanel();
                         MainMenu.getINSTANCE().togglePanel();
                     } else {
