@@ -151,7 +151,7 @@ public abstract class UserInterfaceController {
         try {
             tcp = new TCP();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+           return;
         }
         try {
             tcp.sendObject(new Packet(false,"exit"));
