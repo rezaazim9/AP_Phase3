@@ -9,6 +9,7 @@ import view.menu.PauseMenu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 import static controller.UserInterfaceController.*;
 import static controller.constants.MovementConstants.*;
+import static model.TCP.connectedMessage;
+import static model.TCP.disconnectMessage;
 import static model.characters.GeoShapeModel.allShapeModelsList;
 import static model.collision.Collidable.collidables;
 import static view.menu.MainMenu.spawn;
@@ -23,12 +26,12 @@ import static view.menu.MainMenu.spawn;
 public class WaveManager {
     public static List<GeoShapeModel> waveEntities = new CopyOnWriteArrayList<>();
     public static final Random random = new Random();
-    public static int wave=Profile.getCurrent().getWave();
+    public static int wave = Profile.getCurrent().getWave();
     public static int PR = 0;
     private long waveStart = System.nanoTime();
     private long waveFinish;
     public static int killedEnemies = 0;
-
+    private boolean connected;
 
 
     public void start() {
@@ -72,6 +75,18 @@ public class WaveManager {
         waveStart = System.nanoTime();
         Timer waveTimer = new Timer((100), null);
         waveTimer.addActionListener(e -> {
+            try {
+                new TCP();
+                if (!connected) {
+                    connectedMessage();
+                    connected = true;
+                }
+            } catch (IOException ex) {
+                if (connected) {
+                    disconnectMessage();
+                    connected = false;
+                }
+            }
             boolean waveFinished = false;
             if (killedEnemies - 1 > wave) {
                 waveFinished = true;
@@ -90,7 +105,7 @@ public class WaveManager {
                     waveEntities.clear();
                 }
                 float length = showMessage(5 - WaveManager.wave);
-                if (WaveManager.wave <5) initiateWave(WaveManager.wave + 1);
+                if (WaveManager.wave < 5) initiateWave(WaveManager.wave + 1);
                 else {
                     Profile.getCurrent().setWave(0);
                     Profile.getCurrent().setPaused(true);
@@ -100,6 +115,7 @@ public class WaveManager {
         });
         waveTimer.start();
     }
+
     public static void finishGame(float lastSceneTime) {
         Timer timer = new Timer((int) TimeUnit.NANOSECONDS.toMillis((long) lastSceneTime), e -> {
             GameLoop.setPRZero();

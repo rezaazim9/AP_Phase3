@@ -13,6 +13,7 @@ import java.util.List;
 import static controller.constants.DimensionConstants.LOGIN_PAGE_DIMENSION;
 import static controller.constants.UIConstants.*;
 import static controller.constants.UIMessageConstants.*;
+import static model.TCP.disconnectMessage;
 
 public class LoginPage extends PanelB {
     private static LoginPage INSTANCE;
@@ -28,7 +29,7 @@ public class LoginPage extends PanelB {
         idField.setBorder(null);
         ButtonB loginButton = new ButtonB(ButtonB.ButtonType.SMALL_MENU_BUTTON, "ENTER YOUR PROFILE", (int) MENU_BUTTON_WIDTH.getValue(), LOGIN_PAGE_FONT_SIZE.getValue(), false);
         loginButton.addActionListener(e -> {
-            TCP tcp ;
+            TCP tcp;
             try {
                 tcp = new TCP();
             } catch (IOException ee) {
@@ -52,11 +53,7 @@ public class LoginPage extends PanelB {
             try {
                 tcp.sendObject(new Packet(idField.getText(), "loginCheck"));
             } catch (IOException ex) {
-                try {
-                    tcp.disconnectMessage();
-                } catch (IOException exc) {
-                    throw new RuntimeException(exc);
-                }
+              disconnectMessage();
             }
             try {
                 boolean valid = (boolean) tcp.receiveObject();
@@ -78,11 +75,7 @@ public class LoginPage extends PanelB {
                     MainMenu.getINSTANCE().togglePanel();
                 }
             } catch (IOException | ClassNotFoundException ex) {
-                try {
-                    tcp.disconnectMessage();
-                } catch (IOException exc) {
-                    throw new RuntimeException(exc);
-                }
+                disconnectMessage();
             }
         });
         ButtonB exit = new ButtonB(ButtonB.ButtonType.SMALL_MENU_BUTTON, "EXIT", (int) MENU_BUTTON_WIDTH.getValue(), false);

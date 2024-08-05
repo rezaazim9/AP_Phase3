@@ -1,6 +1,6 @@
 package model;
 
-import com.fasterxml.jackson.core.JsonEncoding;
+import view.containers.GlassFrame;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -24,10 +24,10 @@ public class TCP {
     public Object receiveObject() throws IOException, ClassNotFoundException {
         return inputStream.readObject();
     }
-    public void disconnectMessage() throws IOException {
-        JOptionPane.showOptionDialog(null, DISCONNECTED_MESSAGE, String.valueOf(DISCONNECTED_TITLE), JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[]{}, null);
+    public static void disconnectMessage() {
+        JOptionPane.showOptionDialog(GlassFrame.getGlassFrame(), DISCONNECTED_MESSAGE, String.valueOf(DISCONNECTED_TITLE), JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[]{}, null);
     }
-    public void connected(){
-        JOptionPane.showOptionDialog(null, CONNECTED_MESSAGE, String.valueOf(CONNECTED_TITLE), JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+    public static void connectedMessage() {
+        JOptionPane.showOptionDialog(GlassFrame.getGlassFrame(), CONNECTED_MESSAGE, String.valueOf(CONNECTED_TITLE), JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
     }
 }
