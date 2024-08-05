@@ -1,8 +1,6 @@
 package controller;
 
-import model.MotionPanelModel;
-import model.Profile;
-import model.WaveManager;
+import model.*;
 import model.characters.EpsilonModel;
 import model.characters.GeoShapeModel;
 import model.collision.Collision;
@@ -14,7 +12,7 @@ import view.containers.MotionPanelView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.Timer;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;

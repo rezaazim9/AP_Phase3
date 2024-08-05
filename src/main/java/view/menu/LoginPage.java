@@ -52,7 +52,11 @@ public class LoginPage extends PanelB {
             try {
                 tcp.sendObject(new Packet(idField.getText(), "loginCheck"));
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                try {
+                    tcp.disconnectMessage();
+                } catch (IOException exc) {
+                    throw new RuntimeException(exc);
+                }
             }
             try {
                 boolean valid = (boolean) tcp.receiveObject();
@@ -74,7 +78,11 @@ public class LoginPage extends PanelB {
                     MainMenu.getINSTANCE().togglePanel();
                 }
             } catch (IOException | ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
+                try {
+                    tcp.disconnectMessage();
+                } catch (IOException exc) {
+                    throw new RuntimeException(exc);
+                }
             }
         });
         ButtonB exit = new ButtonB(ButtonB.ButtonType.SMALL_MENU_BUTTON, "EXIT", (int) MENU_BUTTON_WIDTH.getValue(), false);

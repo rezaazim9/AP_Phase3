@@ -156,7 +156,11 @@ public abstract class UserInterfaceController {
         try {
             tcp.sendObject(new Packet(false,"exit"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                tcp.disconnectMessage();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
