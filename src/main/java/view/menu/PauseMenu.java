@@ -52,6 +52,7 @@ public class PauseMenu extends PanelB implements TopElement {
             int action = JOptionPane.showConfirmDialog(getINSTANCE(), EXIT_GAME_MESSAGE.getValue(), EXIT_GAME_TITLE.getValue()
                     , JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (action == JOptionPane.YES_OPTION) {
+                Profile.getCurrent().setWave(0);
                 GameLoop.setPRZero();
                 Profile.getCurrent().setCurrentGameXP(0);
                 exitGame();

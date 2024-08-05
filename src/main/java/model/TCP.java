@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import view.containers.GlassFrame;
 
 import javax.swing.*;
@@ -29,5 +31,9 @@ public class TCP {
     }
     public static void connectedMessage() {
         JOptionPane.showOptionDialog(GlassFrame.getGlassFrame(), CONNECTED_MESSAGE, String.valueOf(CONNECTED_TITLE), JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+    }
+    public static String JsonMaker(Object o) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+       return objectMapper.writeValueAsString(o);
     }
 }

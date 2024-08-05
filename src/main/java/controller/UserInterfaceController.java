@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static controller.AudioHandler.clips;
 import static model.MotionPanelModel.*;
-import static model.TCP.disconnectMessage;
+import static model.TCP.JsonMaker;
 import static model.Utils.*;
 import static model.characters.GeoShapeModel.allShapeModelsList;
 import static view.characters.GeoShapeView.allShapeViewsList;
@@ -88,8 +88,6 @@ public abstract class UserInterfaceController {
         return GameLoop.getINSTANCE().isOn();
     }
 
-
-   private static boolean gameFinished =false;
     public static boolean isGameRunning() {return GameLoop.getINSTANCE().isRunning();}
 
     public static void toggleGameRunning() {GameLoop.getINSTANCE().toggleGameLoop();}
@@ -102,6 +100,12 @@ public abstract class UserInterfaceController {
         for (MotionPanelView motionPanelView : allMotionPanelViewsList) {
             motionPanelView.shapeViews.clear();
             motionPanelView.setVisible(false);
+        }
+        TCP tcp;
+        try {
+            tcp = new TCP();
+            tcp.sendObject(new Packet(JsonMaker(Profile.getCurrent()), "profile"));
+        } catch (IOException ignored) {
         }
         WaveManager.waveEntities.clear();
         setMainMotionPanelModel(null);
@@ -148,16 +152,6 @@ public abstract class UserInterfaceController {
         for (Clip clip : clips.keySet()) {
             clip.stop();
             clips.remove(clip);
-        }TCP tcp;
-        try {
-            tcp = new TCP();
-        } catch (IOException e) {
-           return;
-        }
-        try {
-            tcp.sendObject(new Packet(false,"exit"));
-        } catch (IOException e) {
-            disconnectMessage();
         }
     }
 

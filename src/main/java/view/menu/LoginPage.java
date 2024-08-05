@@ -1,6 +1,8 @@
 package view.menu;
 
+import com.google.gson.Gson;
 import model.Packet;
+import model.Profile;
 import model.TCP;
 import view.containers.ButtonB;
 import view.containers.PanelB;
@@ -71,6 +73,10 @@ public class LoginPage extends PanelB {
                         JOptionPane.showOptionDialog(getINSTANCE(), SIGNUP_SUCCESSFUL_MESSAGE.getValue(), SIGNUP_SUCCESSFUL_TITLE.getValue(),
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                     }
+                    TCP tcp3 = new TCP();
+                    tcp3.sendObject(new Packet(idField.getText(), "profileId"));
+                    String json = (String) tcp3.receiveObject();
+                    Profile.setCurrent(new Gson().fromJson(json, Profile.class));
                     LoginPage.getINSTANCE().togglePanel();
                     MainMenu.getINSTANCE().togglePanel();
                 }
