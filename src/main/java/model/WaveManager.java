@@ -88,10 +88,11 @@ public class WaveManager {
                     }
                     waveEntities.clear();
                 }
-                float length = showMessage(3 - WaveManager.wave);
-                if (WaveManager.wave < 3) initiateWave(WaveManager.wave + 1);
+                float length = showMessage(5 - WaveManager.wave);
+                if (WaveManager.wave < 5) initiateWave(WaveManager.wave + 1);
                 else {
                     Profile.getCurrent().setWave(0);
+                    Profile.getCurrent().setPaused(true);
                     finishGame(length);
                 }
             }
@@ -101,7 +102,7 @@ public class WaveManager {
 
     public static void finishGame(float lastSceneTime) {
         Timer timer = new Timer((int) TimeUnit.NANOSECONDS.toMillis((long) lastSceneTime), e -> {
-            Profile.getCurrent().setPaused(true);
+
             GameLoop.setPRZero();
             Profile.getCurrent().saveXP();
 

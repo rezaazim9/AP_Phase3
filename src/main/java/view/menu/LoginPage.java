@@ -1,6 +1,7 @@
 package view.menu;
 
 import com.google.gson.Gson;
+import model.ConnectionThread;
 import model.Packet;
 import model.Profile;
 import model.TCP;
@@ -45,6 +46,9 @@ public class LoginPage extends PanelB {
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
                         LoginPage.getINSTANCE().togglePanel();
                         MainMenu.getINSTANCE().togglePanel();
+                        ConnectionThread.connected=true;
+                        new ConnectionThread().start();
+
                     } else {
                         JOptionPane.showOptionDialog(getINSTANCE(), INVALID_PROFILE_ID_MESSAGE.getValue(), INVALID_PROFILE_ID_TITLE.getValue(),
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
@@ -79,6 +83,8 @@ public class LoginPage extends PanelB {
                     Profile.setCurrent(new Gson().fromJson(json, Profile.class));
                     LoginPage.getINSTANCE().togglePanel();
                     MainMenu.getINSTANCE().togglePanel();
+                    ConnectionThread.connected=false;
+                    new ConnectionThread().start();
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 disconnectMessage();
