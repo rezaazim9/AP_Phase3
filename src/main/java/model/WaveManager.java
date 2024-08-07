@@ -62,6 +62,7 @@ public class WaveManager {
 
 
     private void initiateWave(int wave) {
+        Profile.getCurrent().setPaused(false);
         if (wave != Profile.getCurrent().getWave()) {
             initialPortal();
         }
@@ -71,23 +72,17 @@ public class WaveManager {
         waveStart = System.nanoTime();
         Timer waveTimer = new Timer((100), null);
         waveTimer.addActionListener(e -> {
-            boolean waveFinished = false;
+            boolean spawnFinished = false;
             if (killedEnemies - 1 > wave) {
-                waveFinished = true;
-                killedEnemies = 0;
+               spawnFinished = true;
             }
-            if (waveFinished) {
+            if (spawnFinished) {
+                Profile.getCurrent().setPaused(true);
+            }
+            if (waveEntities.isEmpty()&&spawnFinished){
+                killedEnemies = 0;
                 WaveManager.wave++;
-                if (waveEntities != null) {
-                    waveTimer.stop();
-                    for (GeoShapeModel shapeModel : waveEntities) {
-                        allShapeModelsList.remove(shapeModel);
-                        collidables.remove(shapeModel);
-                        Movable.movables.remove(shapeModel);
-                        eliminateView(shapeModel.getModelId(), shapeModel.getMotionPanelId());
-                    }
-                    waveEntities.clear();
-                }
+                waveTimer.stop();
                 float length = showMessage(5 - WaveManager.wave);
                 if (WaveManager.wave < 5) initiateWave(WaveManager.wave + 1);
                 else {
