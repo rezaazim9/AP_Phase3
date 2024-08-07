@@ -72,10 +72,7 @@ public class WaveManager {
         waveStart = System.nanoTime();
         Timer waveTimer = new Timer((100), null);
         waveTimer.addActionListener(e -> {
-            boolean spawnFinished = false;
-            if (killedEnemies - 1 > wave) {
-               spawnFinished = true;
-            }
+            boolean spawnFinished = killedEnemies - 1 > wave;
             if (spawnFinished) {
                 Profile.getCurrent().setPaused(true);
             }
