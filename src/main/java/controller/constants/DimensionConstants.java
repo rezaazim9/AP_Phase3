@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import static controller.constants.ViewConstants.*;
 
 public enum DimensionConstants {
-    SCREEN_SIZE, EPSILON_DIMENSION, TRIGORATH_DIMENSION, SQUARANTINE_DIMENSION,PORTAL_DIMENSION ,BULLET_DIMENSION, LOGIN_PAGE_DIMENSION,
-    MAIN_MENU_DIMENSION, SETTINGS_MENU_DIMENSION, SKILL_TREE_DIMENSION, PAUSE_MENU_DIMENSION,FPS_COUNTER_DIMENSION;
+    SCREEN_SIZE, EPSILON_DIMENSION, TRIGORATH_DIMENSION,LEADERBOARD_DIMENSION, SQUARANTINE_DIMENSION,PORTAL_DIMENSION ,BULLET_DIMENSION, LOGIN_PAGE_DIMENSION,
+    MAIN_MENU_DIMENSION,SCROLL_PANE_DIMENSION, SETTINGS_MENU_DIMENSION, SKILL_TREE_DIMENSION, PAUSE_MENU_DIMENSION,FPS_COUNTER_DIMENSION;
 
     public Dimension getValue() {
         return switch (this) {
@@ -18,6 +18,8 @@ public enum DimensionConstants {
             case SQUARANTINE_DIMENSION -> new Dimension((int) SQUARANTINE_FACTOR.getValue(), (int) SQUARANTINE_FACTOR.getValue());
             case BULLET_DIMENSION -> new Dimension((int) BULLET_FACTOR.getValue(), (int) BULLET_FACTOR.getValue());
             case LOGIN_PAGE_DIMENSION -> new Dimension(750,400);
+            case LEADERBOARD_DIMENSION -> new Dimension(500, 750);
+            case SCROLL_PANE_DIMENSION -> new Dimension(450, 600);
             case MAIN_MENU_DIMENSION -> new Dimension(700, 800);
             case SETTINGS_MENU_DIMENSION -> new Dimension(900, 400);
             case SKILL_TREE_DIMENSION -> new Dimension(900, 750);

@@ -35,9 +35,7 @@ public class ConnectionThread extends Thread {
                 if (connected && !GameLoop.getINSTANCE().isRunning()) {
                     tcp.sendObject(new Packet(JsonMaker(Profile.getCurrent()), "profile"));
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            } catch (IOException ignored) {}
         }
     }
 }

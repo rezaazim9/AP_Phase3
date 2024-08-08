@@ -3,7 +3,7 @@ package model;
 import controller.GameLoop;
 
 import model.characters.*;
-import model.movement.Movable;
+import view.menu.LeaderBoard;
 import view.menu.MainMenu;
 import view.menu.PauseMenu;
 
@@ -16,9 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import static controller.UserInterfaceController.*;
 import static controller.constants.MovementConstants.*;
-import static model.characters.GeoShapeModel.allShapeModelsList;
-import static model.collision.Collidable.collidables;
-import static view.menu.MainMenu.spawn;
+import static model.TCP.JsonMaker;
 
 public class WaveManager {
     public static List<GeoShapeModel> waveEntities = new CopyOnWriteArrayList<>();
@@ -94,15 +92,29 @@ public class WaveManager {
 
     public static void finishGame(float lastSceneTime) {
         Timer timer = new Timer((int) TimeUnit.NANOSECONDS.toMillis((long) lastSceneTime), e -> {
-
             GameLoop.setPRZero();
             Profile.getCurrent().saveXP();
-
+            WaveManager.wave = 0;
             exitGame();
-            spawn.interrupt();
             PauseMenu.getINSTANCE().togglePanel(true);
-            MainMenu.flushINSTANCE();
-            MainMenu.getINSTANCE().togglePanel();
+            TCP tcp2;
+            try {
+                tcp2 = new TCP();
+                tcp2.sendObject(new Packet(JsonMaker(Profile.getCurrent()), "profile"));
+            } catch (Exception ignored) {
+            }
+            TCP tcp ;
+            try {
+                tcp = new TCP();
+                tcp.sendObject(new Packet(JsonMaker(new Stats((GameLoop.getINSTANCE().getCurrentTime() - GameLoop.getINSTANCE().getStartTime()) / 1000000000, Profile.getCurrent().getProfileId(),Profile.getCurrent().getCurrentGameXP())),"stats"));
+                List< String> stats= (List<String>) tcp.receiveObject();
+                JList<String> list = new JList<>(stats.toArray(new String[0]));
+                LeaderBoard.getINSTANCE().setScrollPane(new JScrollPane(list));
+                LeaderBoard.getINSTANCE().togglePanel();
+            } catch (Exception ex) {
+                MainMenu.flushINSTANCE();
+                MainMenu.getINSTANCE().togglePanel();
+            }
         });
         timer.setRepeats(false);
         timer.start();

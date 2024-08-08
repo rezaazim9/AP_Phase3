@@ -42,6 +42,14 @@ public final class GameLoop implements Runnable {
     private static int PR = 0;
     private WaveManager waveManager;
 
+    public long getCurrentTime() {
+        return currentTime;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
     public static int getPR() {
         return PR;
     }
