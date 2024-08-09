@@ -9,7 +9,7 @@ import java.awt.*;
 import static controller.constants.UIConstants.DEFAULT_FONT_SIZE;
 import static controller.constants.UIConstants.ORBITRON_FONT;
 
-public class Main {
+public class Client {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

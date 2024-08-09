@@ -13,8 +13,7 @@ import static controller.constants.EntityConstants.TRIGORATH_MELEE_DAMAGE;
 import static model.Utils.roundPoint;
 
 public class Enemies {
-    public class SquarantineModel extends GeoShapeModel  {
-
+    public static class SquarantineModel extends GeoShapeModel  {
         public SquarantineModel(Point anchor, String motionPanelId) {
             super(new Point(0, 0), SQUARANTINE_VERTICES.getValue(), SQUARANTINE_HEALTH.getValue());
             this.setCircular(false);
@@ -28,7 +27,7 @@ public class Enemies {
             setCollectibleValue(5);
         }
     }
-    public class TrigorathModel extends GeoShapeModel  {
+    public static class TrigorathModel extends GeoShapeModel  {
         public TrigorathModel(Point anchor, String motionPanelId) {
             super(new Point(0, 0), TRIGORATH_VERTICES.getValue(), TRIGORATH_HEALTH.getValue());
             this.setCircular(false);

@@ -44,15 +44,14 @@ public class SpawnThread extends Thread {
                 Constructor constructor;
                 if (WaveManager.wave == 0 && entity.equals(Enemies.TrigorathModel.class)) {
                     entity = Enemies.SquarantineModel.class;
-
                 }
                 try {
-                    constructor = entity.getConstructor(Enemies.class, Point.class, String.class);
+                    constructor = entity.getConstructor( Point.class, String.class);
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }
                 try {
-                    model = (GeoShapeModel) constructor.newInstance(new Enemies(), location, getMainMotionPanelId());
+                    model = (GeoShapeModel) constructor.newInstance( location, getMainMotionPanelId());
                 } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
