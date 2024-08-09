@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import static controller.constants.DimensionConstants.FPS_COUNTER_DIMENSION;
 import static controller.constants.DimensionConstants.SCREEN_SIZE;
 import static controller.constants.FilePaths.ICON_PATH;
 import static controller.constants.ShrinkConstants.MINIMIZE_DELAY;

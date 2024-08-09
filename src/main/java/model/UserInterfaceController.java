@@ -1,29 +1,13 @@
 package model;
 
-import model.characters.EpsilonModel;
-import model.characters.GeoShapeModel;
-import model.collision.Collidable;
 import model.entities.Ability;
 import model.entities.Skill;
-import model.movement.Movable;
-import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
-import javax.sound.sampled.Clip;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static model.Utils.*;
-import static model.characters.GeoShapeModel.allShapeModelsList;
 
 public abstract class UserInterfaceController {
     private UserInterfaceController(){}
@@ -43,29 +27,18 @@ public abstract class UserInterfaceController {
      * (as value) of name,cost,acquired status of all skills in that category
      */
     public static ConcurrentMap<String, List<Triple<String,Integer,Boolean>>> getSkillTypesData() {
-        ConcurrentMap<String, List<Triple<String,Integer,Boolean>>> out = new ConcurrentHashMap<>();
-        for (Skill.SkillType type : Skill.SkillType.values()) {
-            List<Triple<String,Integer,Boolean>> skills = new CopyOnWriteArrayList<>();
-            for (Skill skill : Skill.values()) {
-                if (skill.getType()==type)  skills.add(new MutableTriple<>(skill.getName(),skill.getCost(), skill.isAcquired()));
-            }
-            out.put(type.name(),skills);
-        }
-        return out;
+        return controller.UserInterfaceController.getSkillTypesData();
     }
 
     /**
      * @return a thread-safe hashmap mapping to every ability name (as key) its activation cost (as value)
      */
     public static ConcurrentMap<String, Integer> getAbilitiesData() {
-        ConcurrentHashMap<String, Integer> out = new ConcurrentHashMap<>();
-        for (Ability ability : Ability.values()) out.put(ability.getName(), ability.getCost());
-        return out;
+        return controller.UserInterfaceController.getAbilitiesData();
     }
 
     public static String getActiveSkill() {
-        if (Skill.getActiveSkill() == null) return null;
-        return Skill.getActiveSkill().getName();
+        return controller.UserInterfaceController.getActiveSkill();
     }
 
     public static void setActiveSkill(String skillName) {
@@ -95,17 +68,11 @@ public abstract class UserInterfaceController {
     }
 
     public static Skill findSkill(String name) {
-        for (Skill.SkillType type : Skill.SkillType.values()) {
-            for (Skill skill : Skill.values()) {
-                if (skill.getType()==type && skill.getName().equals(name)) return skill;
-            }
-        }
-        return null;
+        return controller.UserInterfaceController.findSkill(name);
     }
 
     public static Ability findAbility(String name) {
-        for (Ability ability : Ability.values()) if (ability.getName().equals(name)) return ability;
-        return null;
+        return controller.UserInterfaceController.findAbility(name);
     }
 
 

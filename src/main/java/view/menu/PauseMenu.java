@@ -3,7 +3,6 @@ package view.menu;
 import controller.GameLoop;
 import controller.constants.DefaultMethods;
 import model.Profile;
-import model.WaveManager;
 import model.characters.EpsilonModel;
 import view.containers.ButtonB;
 import view.containers.PanelB;

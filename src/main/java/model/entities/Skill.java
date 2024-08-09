@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import static controller.UserInterfaceController.*;
 import static controller.constants.AbilityConstants.*;
 import static controller.constants.EntityConstants.*;
-import static model.Utils.*;
 
 public enum Skill {
     ARES, ASTRAPE, CERBERUS, ACESO, MELAMPUS, CHIRON, PROTEUS, EMPUSA, DOLUS;
@@ -122,7 +121,7 @@ public enum Skill {
                     }
                 }
                 for (String skill : Profile.getCurrent().getRandomAcquiredSkillsNames()) {
-                    findSkill(skill).fire();
+                    Objects.requireNonNull(findSkill(skill)).fire();
                 }
             };
         };

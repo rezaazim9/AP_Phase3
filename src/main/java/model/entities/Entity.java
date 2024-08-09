@@ -1,6 +1,5 @@
 package model.entities;
 
-import controller.GameLoop;
 import model.Profile;
 import model.WaveManager;
 import model.characters.CollectibleModel;
@@ -8,7 +7,6 @@ import model.characters.EpsilonModel;
 import model.characters.GeoShapeModel;
 import model.movement.Movable;
 
-import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -17,7 +15,6 @@ import static controller.constants.ImpactConstants.MELEE_COOLDOWN;
 import static model.characters.CollectibleModel.bulkCreateCollectibles;
 import static model.characters.GeoShapeModel.allShapeModelsList;
 import static model.collision.Collidable.collidables;
-import static org.apache.commons.lang3.ThreadUtils.sleep;
 
 public abstract class Entity {
     private int health;
